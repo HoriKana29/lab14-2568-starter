@@ -6,6 +6,11 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
   plan: "funrun",
   gender: "male",
   email: "",
+  password:"",
+  conPassword:"",
+  couponCode:"",
+  haveCoupon: false,
+  total: 0,
   setFname: (fname) =>
     set(() => ({
       fname: fname,
@@ -26,6 +31,32 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
     set(() => ({
       email: _email,
     })),
+  setPassword: (_password) =>
+    set(() => ({
+      password: _password,
+    })),
+  setConPassword: (_conPassword) =>
+    set(() => ({
+      conPassword: _conPassword,
+    })),
+  setCouponCode: (_couponCode) =>
+    set(() => ({
+      couponCode: _couponCode,
+    })),
+  sethaveCoupon: (_haveCoupon) =>
+    set(() => ({
+      haveCoupon: _haveCoupon,
+    })),
+    discountCupon: () =>
+    set((state) => {
+       let totalPayment = 0;
+       if (state.plan === "funrun") totalPayment += 500;
+       if (state.plan === "mini") totalPayment += 800;
+       if (state.plan === "half") totalPayment += 1200;
+       if (state.plan === "full") totalPayment += 1500;
+       if (state.couponCode === "CMU2025") totalPayment *= 0.7;
+       return { total: totalPayment };
+    }),
   // Function ชื่อ discountCupon คำนวณ total ตรงนี้
   reset: () =>
     set({
@@ -34,5 +65,9 @@ export const useMarathonFormStore = create<MarathonFormState>((set) => ({
       plan: "funrun",
       gender: "male",
       email: "",
+      password:"",
+      haveCoupon:false,
+      couponCode:"",
+      total:0,
     }),
 }));
